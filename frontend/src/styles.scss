@@ -1,0 +1,215 @@
+/* ============================================================
+   CineWave — global cinematic design system
+   ============================================================ */
+
+:root {
+  /* Surfaces */
+  --bg: #07070b;
+  --bg-elevated: #101018;
+  --surface: #15151f;
+  --surface-2: #1d1d2a;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+
+  /* Text */
+  --text: #f4f4f8;
+  --text-muted: #a7a7b6;
+  --text-faint: #6b6b7c;
+
+  /* Text that always sits on top of imagery (hero overlays) —
+     stays light in BOTH themes for contrast against photos. */
+  --on-media: #f5f5fa;
+  --on-media-muted: #d6d6e0;
+
+  /* Translucent navbar / mobile panel background (theme-aware) */
+  --nav-bg: rgba(8, 8, 12, 0.82);
+  --panel-bg: rgba(8, 8, 12, 0.92);
+
+  /* Brand */
+  --gold: #ffc83d;
+  --coral: #ff5a5f;
+  --violet: #8b6dff;
+  --accent-grad: linear-gradient(135deg, #ffc83d 0%, #ff5a5f 55%, #8b6dff 110%);
+
+  /* Effects */
+  --radius: 14px;
+  --radius-lg: 22px;
+  --shadow: 0 18px 50px -18px rgba(0, 0, 0, 0.75);
+  --shadow-glow: 0 0 0 1px var(--border), 0 22px 60px -24px rgba(255, 90, 95, 0.35);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --maxw: 1280px;
+  --nav-h: 68px;
+
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color-scheme: dark;
+}
+
+/* ── Light theme — soft, NOT pure white ──────────────────────
+   Only surfaces / text / borders flip; brand accents and
+   on-media (hero) text stay the same for a consistent look. */
+:root[data-theme='light'] {
+  --bg: #e7e8ee;
+  --bg-elevated: #f1f2f7;
+  --surface: #f6f7fb;
+  --surface-2: #e4e5ec;
+  --border: rgba(20, 20, 40, 0.10);
+  --border-strong: rgba(20, 20, 40, 0.20);
+
+  --text: #1b1c24;
+  --text-muted: #4a4c5a;
+  --text-faint: #74778a;
+
+  --shadow: 0 18px 50px -22px rgba(30, 30, 55, 0.28);
+  --shadow-glow: 0 0 0 1px var(--border), 0 22px 60px -28px rgba(255, 90, 95, 0.30);
+
+  --nav-bg: rgba(244, 245, 250, 0.85);
+  --panel-bg: rgba(244, 245, 250, 0.94);
+
+  color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Ambient cinematic glow behind everything */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(60% 50% at 80% -5%, rgba(139, 109, 255, 0.18), transparent 60%),
+    radial-gradient(50% 40% at 5% 0%, rgba(255, 90, 95, 0.16), transparent 55%),
+    var(--bg);
+}
+
+a { color: inherit; text-decoration: none; }
+
+h1, h2, h3 { margin: 0; font-weight: 700; letter-spacing: -0.02em; }
+
+::-webkit-scrollbar { height: 8px; width: 8px; }
+::-webkit-scrollbar-thumb { background: var(--surface-2); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: #2a2a3a; }
+
+.container {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 clamp(16px, 4vw, 40px);
+}
+
+/* Display font for big cinematic headings */
+.display {
+  font-family: 'Bebas Neue', 'Inter', sans-serif;
+  letter-spacing: 0.01em;
+  line-height: 0.95;
+}
+
+.text-gradient {
+  background: var(--accent-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+  padding: 12px 22px;
+  border-radius: 99px;
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), background 0.25s;
+}
+.btn:active { transform: scale(0.97); }
+
+.btn-primary {
+  background: var(--accent-grad);
+  color: #16080a;
+  box-shadow: 0 10px 30px -10px rgba(255, 90, 95, 0.55);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 40px -12px rgba(255, 90, 95, 0.7); }
+
+.btn-ghost {
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--text);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-strong);
+}
+.btn-ghost:hover { background: rgba(255, 255, 255, 0.13); }
+
+/* Pills / chips */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  border-radius: 99px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s var(--ease);
+}
+.chip:hover { color: var(--text); border-color: var(--border-strong); }
+.chip.active {
+  color: #16080a;
+  background: var(--accent-grad);
+  border-color: transparent;
+  font-weight: 600;
+}
+
+/* Section heading */
+.section-title {
+  font-size: clamp(20px, 2.4vw, 28px);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.section-title::before {
+  content: '';
+  width: 4px;
+  height: 24px;
+  border-radius: 4px;
+  background: var(--accent-grad);
+}
+
+/* Skeleton shimmer */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface);
+  border-radius: var(--radius);
+}
+.skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.06), transparent);
+  animation: shimmer 1.4s infinite;
+}
+@keyframes shimmer { 100% { transform: translateX(100%); } }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0;
+}

@@ -1,0 +1,21 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: cinewave
+
+# --- TVMaze integration -----------------------------------------------------
+# TVMaze is a FREE, open API — no key, no signup. Nothing to configure to run.
+tvmaze:
+  base-url: https://api.tvmaze.com
+  # Number of 250-show index pages pulled into the in-memory catalog.
+  catalog-pages: ${TVMAZE_CATALOG_PAGES:3}
+
+app:
+  cors:
+    allowed-origins: ${CORS_ORIGINS:http://localhost:4200}
+
+logging:
+  level:
+    com.cinewave: INFO
